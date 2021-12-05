@@ -1,15 +1,4 @@
-import {useQuery} from 'react-query';
-import axios from 'axios'
-
-export default interface HeroData {
-  id?: number,
-  name: string,
-  alterEgo: string,
-}
-
-const fetchSuperHeroes = () => {
-  return axios.get('http://localhost:4000/superheroes')
-}
+import { useSuperHeroesData } from "../hooks/useSuperHeroesData";
 
 export const RQSuperHeroesPage = () => {
   const onSuccess = (data: any) => {
@@ -20,23 +9,10 @@ export const RQSuperHeroesPage = () => {
     console.log("Perform sideeffect after encountering error", error);
   }
 
-
   // const {isLoading, data, isError, error}
-  const {isLoading, data, isError, isFetching, refetch} = useQuery(
-    'super-heroes',
-    fetchSuperHeroes,
-    {
-      onSuccess,
-      onError,
-      select: (data) => {
-        // trnsofrm or select a part of data returned by query fn
-        const superHeroNames = data.data.map((hero:HeroData) => hero.name);
-        return superHeroNames;
-      }
-    }
-  );
+  const {isLoading, data, isError, isFetching, refetch} = useSuperHeroesData(onSuccess, onError)
 
-  console.log(isLoading, isFetching);
+  console.log({isLoading, isFetching});
 
   if (isLoading || isFetching) {
     return <h2>Loading in progress...</h2>
