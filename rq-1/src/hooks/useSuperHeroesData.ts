@@ -18,11 +18,11 @@ export const useSuperHeroesData = (onSuccess: any, onError: any) => {
     {
       onSuccess,
       onError,
-      select: (data) => {
-        // transform or select a part of data returned by query fn
-        const superHeroNames = data.data.map((hero:HeroData) => hero.name);
-        return superHeroNames;
-      }
+      // select: (data) => {
+      //   // transform or select a part of data returned by query fn
+      //   const superHeroNames = data.data.map((hero:HeroData) => hero.name);
+      //   return superHeroNames;
+      // }
     }
   )
 }
