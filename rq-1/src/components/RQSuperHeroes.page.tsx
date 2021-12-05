@@ -2,7 +2,7 @@ import {useQuery} from 'react-query';
 import axios from 'axios'
 
 export default interface HeroData {
-  id?: any | null,
+  id?: number,
   name: string,
   alterEgo: string,
 }
@@ -27,11 +27,14 @@ export const RQSuperHeroesPage = () => {
     fetchSuperHeroes,
     {
       onSuccess,
-      onError
+      onError,
+      select: (data) => {
+        // trnsofrm or select a part of data returned by query fn
+        const superHeroNames = data.data.map((hero:HeroData) => hero.name);
+        return superHeroNames;
+      }
     }
   );
-
-
 
   console.log(isLoading, isFetching);
 
@@ -48,9 +51,14 @@ export const RQSuperHeroesPage = () => {
     <>
       <h2>RQ Super Heroes Page</h2>
       <button onClick={() => refetch()}>Fetch heroes</button>
-      {
+      {/* {
         data?.data.map((hero:any) => {
           return <div key={hero.name}>{hero.name}</div>
+        })
+      } */}
+      {
+        data.map((heroName: string) => {
+          return <div key={heroName}>{heroName}</div>
         })
       }
     </>
